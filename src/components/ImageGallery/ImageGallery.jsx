@@ -1,19 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import css from './ImageGallery.module.css';
-import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleyItem';
+import ImageGalleryItem from '../ImageGalleryItem/ImageGalleyItem';
 
 export default function ImageGallery ({ images, onClick }) {
     return(
-        <ul className={css.imageGallery} onClick={onClick}>
-            {images.map(({id, webformatURL, largeImageURL, user}) => (
-                <ImageGalleryItem
-                    key={id}
-                    webformatURL={webformatURL}
-                    largeImageURL={largeImageURL}
-                    user={user}
-                />
-            ))}
+        <ul className={css.imageGallery} onClick={onClick}> 
+                <ImageGalleryItem/>
         </ul>
     )
 };
