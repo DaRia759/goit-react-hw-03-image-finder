@@ -2,14 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import css from './ImageGalleryItem.module.css';
 
-export default function ImageGalleryItem ({ webformatURL, user, largeImageURL }) {
+export default function ImageGalleryItem ({ webformatURL, user, largeImageURL, onClickPhoto }) {
     return (
         <li className={css.imageGalleryItem}>
             <img
                 className={css.img}
                 src={webformatURL}
-                alt={user}
-                data-fullsize={largeImageURL}
+                alt={`${user}`}
+                onClick={() => {
+                    onClickPhoto(largeImageURL);
+                }}
             />
         </li>
     );

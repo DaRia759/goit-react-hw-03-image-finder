@@ -15,17 +15,14 @@ export default class SearchBar extends Component {
     };
 
     handleSubmit = event => {
-        const { searchWord } = this.state;
-
         event.preventDefault();
 
         if (this.state.searchWord.trim() === '') {
             toast.error('Please enter your request');
             return;
-        } else {
-            this.props.onSubmit(searchWord.trim());
-            this.setState({ searchWord: '' });
-        }
+        } 
+        this.props.onSubmit(this.state.searchWord.trim());
+        this.setState({ searchWord: '' });
     };
 
     render() {
@@ -38,7 +35,7 @@ export default class SearchBar extends Component {
             </button>
 
             <input
-                className={css.input}
+                className={`${css.input} ${searchWord.trim() === '' ? css.inputError : ''}`}
                 type="text"
                 autoComplete="off"
                 autoFocus

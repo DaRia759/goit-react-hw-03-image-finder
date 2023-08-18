@@ -1,5 +1,4 @@
 import { Component } from "react";
-import PropTypes from 'prop-types';
 // import axios from "axios";
 import css from './App.module.css';
 import SearchBar from './SearchBar/Searchbar';
@@ -19,7 +18,7 @@ export default class App extends Component {
         error: null,
     };
 
-    async componentDidUpdate(prevProps, prevState) {
+    async componentDidUpdate(_, prevState) {
         const searchedWordUpdate =
             prevState.searchWord !== this.state.searchWord;
         const pageUpdate = prevState.page !== this.state.page;
@@ -44,17 +43,17 @@ export default class App extends Component {
                     );
                     this.setState({ totalPages: Math.ceil(result.totalHits / PER_PAGE) });
                 }
-                const hits = result.images.map(image => {
-                    return {
-                        id: image.id,
-                        webformatURL: image.webformatURL,
-                        largeImageURL: image.largeImageURL,
-                        user: image.user,
-                    };
-                });
-                this.setState(prevState => ({
-                    images: [...prevState.images, ...hits]
-                }));
+                // // const hits = result.images.map(image => {
+                // //     return {
+                // //         id: image.id,
+                // //         webformatURL: image.webformatURL,
+                // //         largeImageURL: image.largeImageURL,
+                // //         user: image.user,
+                // //     };
+                // // });
+                // this.setState(prevState => ({
+                //     images: [...prevState.images, ...hits]
+                // }));
             } catch (error) {
                 this.setState({ error: error.message });
                 toast.error(`Error occured ${this.state.error}`);
@@ -79,6 +78,3 @@ export default class App extends Component {
     }
 };
 
-App.propTypes = {
-    handleFormOnSubmit: PropTypes.func.isRequired,
-};
