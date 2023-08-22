@@ -21,5 +21,6 @@ ImageGalleryItem.propTypes = {
     webformatURL: PropTypes.string.isRequired,
     user: PropTypes.string.isRequired,
     largeImageURL: PropTypes.string.isRequired,
+    onClickPhoto: PropTypes.func.isRequired,
 };
 

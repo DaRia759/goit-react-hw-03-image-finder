@@ -18,9 +18,9 @@ export default class App extends Component {
         error: null,
     };
 
-    async componentDidUpdate(_, prevState) {
+    async componentDidUpdate(prevProps, prevState) {
         const searchedWordUpdate =
-            prevState.searchWord !== this.state.searchWord;
+            prevProps.searchWord !== this.state.searchWord;
         const pageUpdate = prevState.page !== this.state.page;
 
         if (searchedWordUpdate || pageUpdate) {
