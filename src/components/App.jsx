@@ -43,17 +43,17 @@ export default class App extends Component {
                     );
                     this.setState({ totalPages: Math.ceil(result.totalHits / PER_PAGE) });
                 }
-                // // const hits = result.images.map(image => {
-                // //     return {
-                // //         id: image.id,
-                // //         webformatURL: image.webformatURL,
-                // //         largeImageURL: image.largeImageURL,
-                // //         user: image.user,
-                // //     };
-                // // });
-                // this.setState(prevState => ({
-                //     images: [...prevState.images, ...hits]
-                // }));
+                const hits = result.images.map(image => {
+                    return {
+                        id: image.id,
+                        webformatURL: image.webformatURL,
+                        largeImageURL: image.largeImageURL,
+                        user: image.user,
+                    };
+                });
+                this.setState(prevState => ({
+                    images: [...prevState.images, ...hits]
+                }));
             } catch (error) {
                 this.setState({ error: error.message });
                 toast.error(`Error occured ${this.state.error}`);
