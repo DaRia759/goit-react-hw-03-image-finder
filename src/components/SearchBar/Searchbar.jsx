@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { toast } from 'react-toastify';
+import {toast} from 'react-toastify';
 import css from './SearchBar.module.css';
 
-export default class SearchBar extends React.Component { // Change here
+export default class SearchBar extends React.Component { 
     state = {
         searchWord: '',
     }
@@ -34,7 +34,7 @@ export default class SearchBar extends React.Component { // Change here
                     </button>
 
                     <input
-                        className={`${css.input} ${searchWord.trim() === '' ? css.inputError : ''}`}
+                        className={`${css.input} ${searchWord !== '' ? css.inputError : ''}`}
                         type="text"
                         autoComplete="off"
                         autoFocus
