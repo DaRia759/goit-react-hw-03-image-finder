@@ -1,13 +1,14 @@
-// import React from 'react';
-// import css from './Modal.module.css';
+import React from 'react';
+import css from './Modal.module.css';
 
 
-// const instance = basicLightbox.create(
-//     <div className={css.modal}>
-//         <p>
-//         </p>
-//     </div>
-// )
+const Modal = ({url, cleanURL}) => {
+    return (
+        <div className={css.overlay} onClick={cleanURL}>
+            <img src={url} alt="selectedImage" className={css.modal}/>
+        </div>
+    )
+};
 
-// instance.show()
+export default Modal;
 

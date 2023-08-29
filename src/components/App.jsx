@@ -2,9 +2,13 @@ import { Component } from "react";
 // import axios from "axios";
 import css from './App.module.css';
 import SearchBar from './SearchBar/Searchbar';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import ImageGallery from './ImageGallery/ImageGallery';
 import * as getImage from './API/api';
+import Modal from './Modal/Modal';
+import Button from "./Button/Button";
+import Loader from "./Loader/Loader";
+
 
 const PER_PAGE = 12;
 
@@ -16,11 +20,12 @@ export default class App extends Component {
         totalPages: 1,
         showLoader: false,
         error: null,
+        modalURL: '',
     };
 
     async componentDidUpdate(prevProps, prevState) {
         const searchedWordUpdate =
-            prevProps.searchWord !== this.state.searchWord;
+            prevState.searchWord !== this.state.searchWord;
         const pageUpdate = prevState.page !== this.state.page;
 
         if (searchedWordUpdate || pageUpdate) {
@@ -31,6 +36,7 @@ export default class App extends Component {
                     page: this.state.page,
                     perPage: PER_PAGE,
                 });
+
                 if (result.totalHits === 0) {
                     toast.warning(
                         'Sorry! There is no result for your request'
@@ -43,17 +49,17 @@ export default class App extends Component {
                     );
                     this.setState({ totalPages: Math.ceil(result.totalHits / PER_PAGE) });
                 }
-                const hits = result.images.map(image => {
+                const hits = result.hits.map(element => {
                     return {
-                        id: image.id,
-                        webformatURL: image.webformatURL,
-                        largeImageURL: image.largeImageURL,
-                        user: image.user,
+                        id: element.id,
+                        webformatURL: element.webformatURL,
+                        largeImageURL: element.largeImageURL,
+                        user: element.user,
                     };
                 });
-                this.setState(prevState => ({
-                    images: [...prevState.images, ...hits]
-                }));
+                this.setState({
+                    images: hits
+                });
             } catch (error) {
                 this.setState({ error: error.message });
                 toast.error(`Error occured ${this.state.error}`);
@@ -67,12 +73,35 @@ export default class App extends Component {
         this.setState({ searchWord });
     };
 
+    onImageClick = url => {
+        this.setState({ modalURL:url });
+    };
+
+    cleanURL = () => {
+        this.setState({ modalURL:'' });
+    };
+
+    handleLoadMore = () => {
+        if (this.state.page < this.state.totalPages) {
+         this.setState(prevState => ({ page: prevState.page + 1 }));
+        }
+    };
+
     render() {
+        const isLoadMoreDisabled = this.state.searchWord === '' || this.state.showLoader;
+        const loadMoreButtonStyle = {
+            display: isLoadMoreDisabled  ? 'none' : 'block'
+        };
+
         return (
             <div className={css.app}>
                 <SearchBar onSubmit={this.handleFormOnSubmit} />
-                <ImageGallery searchWord={this.state.searchWord} />
-                <ToastContainer position="top-center" autoClose={3000} />
+                <ImageGallery images={this.state.images} onClick={this.onImageClick} />
+                <Loader/>
+                <Button onClick={this.handleLoadMore} disabled={isLoadMoreDisabled} style={loadMoreButtonStyle} />
+                {Boolean(this.state.modalURL) && <Modal url={this.state.modalURL} cleanURL={this.cleanURL} />}
+                
+                
             </div>
         )
     }

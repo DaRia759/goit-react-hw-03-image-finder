@@ -1,2 +1,8 @@
-// import React from 'react';
-// import PropType from 'prop-types';
+import React from 'react';
+
+
+const Loader = () => <div>
+    Loading...
+</div>;
+
+export default Loader;

@@ -10,5 +10,5 @@ export async function fetchImagesBundle ({query, page}) {
     if (!responce.ok) {
         throw new Error('Something goes wrong')   
     }
-    return Response.json();
+    return responce.json();
 }

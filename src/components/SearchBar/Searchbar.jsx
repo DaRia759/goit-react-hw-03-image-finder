@@ -22,7 +22,6 @@ export default class SearchBar extends React.Component { // Change here
             return;
         } 
         this.props.onSubmit(this.state.searchWord.trim());
-        this.setState({ searchWord: '' });
     };
 
     render() {

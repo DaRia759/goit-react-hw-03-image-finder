@@ -5,15 +5,15 @@ import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem';
 
 export default function ImageGallery ({ images, onClick }) {
     return (
-        <ul className={css.imageGallery} onClick={onClick}>
-            {images.map(({ id, webformatURL, largeImageURL, tags }) => {
+        <ul className={css.imageGallery}>
+            {images && images?.map(({ id, webformatURL, largeImageURL, user}) => {
                 return (
                     <ImageGalleryItem
                         key={id}
-                        src={webformatURL}
-                        alt={tags}
+                        webformatURL={webformatURL}
+                        user={user}
                         largeImageURL={largeImageURL}
-                        onClick={onClick}
+                        onClickPhoto={onClick}
                     />
                 );
             })}
@@ -27,7 +27,7 @@ ImageGallery.propTypes = {
         PropTypes.shape({
             id: PropTypes.number.isRequired,
             webformatURL: PropTypes.string.isRequired,
-            tags: PropTypes.string.isRequired,
+            user: PropTypes.string.isRequired,
             largeImageURL: PropTypes.string.isRequired,
         })
     ).isRequired,
