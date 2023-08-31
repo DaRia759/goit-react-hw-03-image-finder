@@ -2,7 +2,7 @@ import { Component } from "react";
 // import axios from "axios";
 import css from './App.module.css';
 import SearchBar from './SearchBar/Searchbar';
-import {toast} from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
 import ImageGallery from './ImageGallery/ImageGallery';
 import * as getImage from './API/api';
 import Modal from './Modal/Modal';
@@ -97,6 +97,7 @@ export default class App extends Component {
             <div className={css.app}>
                 <SearchBar onSubmit={this.handleFormOnSubmit} />
                 <ImageGallery images={this.state.images} onClick={this.onImageClick} />
+                <ToastContainer autoClose={3000} theme="colored" position='top-center' style= { {width: "30%"}} />
                 <Spinner show={this.state.showLoader} />
                 <Button onClick={this.handleLoadMore} disabled={isLoadMoreDisabled} style={{ display: isLoadMoreDisabled ? 'none' : 'block' }} />
                 {Boolean(this.state.modalURL) && <Modal url={this.state.modalURL} cleanURL={this.cleanURL} />}
