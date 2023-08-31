@@ -8,6 +8,7 @@ import * as getImage from './API/api';
 import Modal from './Modal/Modal';
 import Button from "./Button/Button";
 import Spinner from "./Loader/Loader";
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const PER_PAGE = 12;
@@ -38,15 +39,16 @@ export default class App extends Component {
                 });
 
                 if (result.totalHits === 0) {
-                    toast.warning(
-                        'Sorry! There is no result for your request'
+                    toast.warning('Sorry! There is no result for your request'
                     );
+                    this.setState({
+                        images: [],
+                        showLoader: false
+                    });
                     return;
                 }
                 if (searchedWordUpdate) {
-                    toast.info(
-                        `There are ${result.totalHits} images we found`
-                    );
+                    toast.info(`There are ${result.totalHits} images we found`);
                     this.setState({ totalPages: Math.ceil(result.totalHits / PER_PAGE) });
                 }
                 const hits = result.hits.map(element => {
@@ -57,10 +59,11 @@ export default class App extends Component {
                         user: element.user,
                     };
                 });
-                this.setState(prevState => ({
-                    images: hits,
+                const newState = [...this.state.images, ...hits];
+                this.setState({
+                    images: newState,
                     showLoader: false
-                }));
+                });
 
             } catch (error) {
                 this.setState({ error: error.message });
@@ -91,19 +94,32 @@ export default class App extends Component {
 
 
     render() {
-        const isLoadMoreDisabled = this.state.searchWord === '' || this.state.showLoader;
+        const isLoadMoreDisabled = !this.state.images.length && this.state.searchWord === '';
 
         return (
-            <div className={css.app}>
-                <SearchBar onSubmit={this.handleFormOnSubmit} />
-                <ImageGallery images={this.state.images} onClick={this.onImageClick} />
-                <ToastContainer autoClose={3000} theme="colored" position='top-center' style= { {width: "30%"}} />
-                <Spinner show={this.state.showLoader} />
-                <Button onClick={this.handleLoadMore} disabled={isLoadMoreDisabled} style={{ display: isLoadMoreDisabled ? 'none' : 'block' }} />
-                {Boolean(this.state.modalURL) && <Modal url={this.state.modalURL} cleanURL={this.cleanURL} />}
-                
-                
-            </div>
+            <>
+                <div className={css.app}>
+                    <SearchBar onSubmit={this.handleFormOnSubmit} />
+                    <ImageGallery images={this.state.images} onClick={this.onImageClick} />
+                    <Spinner show={this.state.showLoader} />
+                    {!!this.state.images.length && (
+                    <Button onClick={this.handleLoadMore} disabled={isLoadMoreDisabled} style={{ display: isLoadMoreDisabled ? 'none' : 'block' }} />
+                    )}
+                    {Boolean(this.state.modalURL) && <Modal url={this.state.modalURL} cleanURL={this.cleanURL} />}
+                </div>
+                <ToastContainer
+                    position="bottom-center"
+                    autoClose={3000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="light"
+                />
+            </>
         )
     }
 };
