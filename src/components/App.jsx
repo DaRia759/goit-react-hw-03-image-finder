@@ -75,7 +75,7 @@ export default class App extends Component {
     }
 
     handleFormOnSubmit = searchWord => {
-        this.setState({ searchWord });
+        this.setState({ searchWord, page: 1, images: []});
     };
 
     onImageClick = url => {
